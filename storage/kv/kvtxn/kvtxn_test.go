@@ -16,4 +16,6 @@ func TestKVTxn(t *testing.T) {
 	test.TestTxnSimple(t, ctx, b)
 	b = New(kvmap.New()) // clear test data
 	t.Run("TestKVTxnKeys", func(t *testing.T) { test.TestKVTxnKeys(t, ctx, b) })
+	t.Run("TestKVTxnKeysPrefix", func(t *testing.T) { test.TestKVTxnKeysPrefix(t, ctx, New(kvmap.New())) })
+
 }

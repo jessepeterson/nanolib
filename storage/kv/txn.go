@@ -43,6 +43,8 @@ type KeysPrefixTraversingBucketTxnCompleter interface {
 type KeysPrefixTraversingBucketTxnBeginner interface {
 	// BeginKeysPrefixTraversingBucketTxn creates a new transaction that can later be completed.
 	BeginKeysPrefixTraversingBucketTxn(ctx context.Context) (KeysPrefixTraversingBucketTxnCompleter, error)
+
+	CRUDBucketTxnBeginner // can also create CRUD txns
 }
 
 // TxnKeysPrefixTraversingBucket is a key-value store that can start transactions.
@@ -62,6 +64,8 @@ type BucketTxnCompleter interface {
 type BucketTxnBeginner interface {
 	// BeginBucketTxn creates a new transaction that can later be completed.
 	BeginBucketTxn(ctx context.Context) (BucketTxnCompleter, error)
+
+	CRUDBucketTxnBeginner // can also create CRUD txns
 }
 
 // TxnBucket is a key-value store that can start transactions.

@@ -210,3 +210,28 @@ func TestKVTxnKeys(t *testing.T, ctx context.Context, b kv.TxnKeysPrefixTraversi
 		t.Errorf("want: %v, have: %v", want, have)
 	}
 }
+
+func TestKVTxnKeysPrefix(t *testing.T, ctx context.Context, b kv.KeysPrefixTraversingBucketTxnBeginner) {
+	bt, err := b.BeginKeysPrefixTraversingBucketTxn(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = bt.Set(ctx, "hello", []byte("world"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	keys := kv.AllKeysPrefix(ctx, bt, "wo")
+
+	// shouldn't find any keys as our prefix does not match anything in our txn
+	if want, have := []string{}, keys; !slicesEqual(want, have) {
+		t.Errorf("want: %v, have: %v", want, have)
+	}
+
+	// roll it back
+	err = bt.Rollback(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
